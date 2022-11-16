@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinLengthValidator, MaxLengthValidator
 
 
 # Create your models here.
@@ -19,3 +20,24 @@ class Book(models.Model):
     date_added = models.DateField(auto_now=True)
     edition = models.PositiveSmallIntegerField()
     genre = models.CharField(max_length=2, choices=GENRE_CHOICE, default="R")
+
+
+class Author(models.Model):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+    email = models.EmailField()
+
+
+class Publisher(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    website = models.URLField()
+
+
+class Address(models.Model):
+    number = models.PositiveIntegerField()
+    street = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    zipcode = models.CharField(max_length=6,
+                               validators=[MinLengthValidator(5, "Code cannot be less than a length of 5"),
+                                           MaxLengthValidator(6, "Code can not exceed a length of 6")])
