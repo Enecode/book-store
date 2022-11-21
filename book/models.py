@@ -1,8 +1,18 @@
 from django.db import models
 from django.core.validators import MinLengthValidator, MaxLengthValidator
+from django.utils.text import slugify
 
 
 # Create your models here.
+class Publisher(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    website = models.URLField()
+
+    def __str__(self):
+        return self.name
+
+
 class Book(models.Model):
     GENRE_CHOICE = (
         ("C", "Comedy"),
@@ -20,6 +30,15 @@ class Book(models.Model):
     date_added = models.DateField(auto_now=True)
     edition = models.PositiveSmallIntegerField()
     genre = models.CharField(max_length=2, choices=GENRE_CHOICE, default="R")
+    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE, related_name="+")
+    author = models.ManyToManyField("Author", related_name="books")
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 
 
 class Author(models.Model):
@@ -27,11 +46,8 @@ class Author(models.Model):
     last_name = models.CharField(max_length=255)
     email = models.EmailField()
 
-
-class Publisher(models.Model):
-    name = models.CharField(max_length=255)
-    email = models.EmailField()
-    website = models.URLField()
+    def __str__(self):
+        return self.first_name
 
 
 class Address(models.Model):
@@ -41,3 +57,4 @@ class Address(models.Model):
     zipcode = models.CharField(max_length=6,
                                validators=[MinLengthValidator(5, "Code cannot be less than a length of 5"),
                                            MaxLengthValidator(6, "Code can not exceed a length of 6")])
+    publisher = models.OneToOneField(Publisher, on_delete=models.CASCADE)
