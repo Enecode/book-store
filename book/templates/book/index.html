@@ -6,5 +6,11 @@
 </head>
 <body>
 <p>Hello World</p>
+{% for publisher in publishers %}
+{#    <li><a href="{% url 'book:publisher_details' pk=publisher.id %}">{{ publisher.name }}</a></li>#}
+    <li><a href="{{ publisher.get_absolute_url }}">{{ publisher.name }}</a></li>
+    <li>{{ publisher.email }}</li>
+    <li>{{ publisher.website }}</li><br>
+{% endfor %}
 </body>
 </html>
