@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinLengthValidator, MaxLengthValidator
 from django.utils.text import slugify
+from django.urls import reverse
 
 
 # Create your models here.
@@ -11,6 +12,10 @@ class Publisher(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        reverse('book:publisher_details', args=[self.id])
+
 
 
 class Book(models.Model):
