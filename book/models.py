@@ -37,6 +37,7 @@ class Book(models.Model):
     genre = models.CharField(max_length=2, choices=GENRE_CHOICE, default="R")
     publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE, related_name="+")
     author = models.ManyToManyField("Author", related_name="books")
+    price = models.DecimalField(max_digits=6, decimal_places=2)
 
     def __str__(self):
         return self.title
@@ -44,6 +45,9 @@ class Book(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['title']
 
 
 class Author(models.Model):
