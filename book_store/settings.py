@@ -31,7 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 DJANGO_APPS = [
-    'django.contrib.admin',
+    # 'django.contrib.admin',
+    'book_store.apps.BookStoreAdminConfig',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -40,6 +41,7 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'rest_framework',
     "debug_toolbar",
 ]
 LOCAL_APPS = [
