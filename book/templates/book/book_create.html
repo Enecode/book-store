@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Book</title>
+</head>
+<body>
+    <form method="post">
+        {% for field in form %}
+            <div>
+                {{ field.title }}
+                {{ field.author }}
+
+            </div>
+        {% endfor %}
+        {{ form }}
+        <button>Submit</button>
+        {% csrf_token %}
+    </form>
+</body>
+</html>
